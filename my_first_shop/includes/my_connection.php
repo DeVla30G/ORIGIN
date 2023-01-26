@@ -21,7 +21,7 @@ if(empty($host) AND empty($username) AND empty($passwd) AND empty($port) AND emp
    }
         try{
 
-            $connect = new PDO("mysql:host=localhost;dbname=my_shop;port=3306","VlaSamAlex", "1234"); 
+            $connect = new PDO("mysql:host=localhost;dbname=my_shop;port=3306","vladi", "1234"); 
             $connect->exec('SET NAMES "UTF8"');
 
         } catch (PDOException $e){

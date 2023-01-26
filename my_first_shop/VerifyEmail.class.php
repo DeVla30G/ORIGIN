@@ -1,6 +1,6 @@
 <?php 
 session_start();
-$connect = new PDO("mysql:host=localhost;dbname=my_shop;port=3306","VlaSamAlex", "1234"); 
+$connect = new PDO("mysql:host=localhost;dbname=my_shop;port=3306","vladi", "1234"); 
 //  
 if(isset($_POST['submit'])){
 

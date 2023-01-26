@@ -1,9 +1,7 @@
 <?php 
 include_once("./includes/header.php"); 
 include_once("VerifyEmail.class.php");
-
 include_once("./includes/cookies.php");
-
 
 ?>
 

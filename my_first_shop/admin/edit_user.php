@@ -2,8 +2,6 @@
 session_start();
 include_once('../includes/my_connection.php');
 
-
-
 if(isset($_POST)){
     if(!empty($_POST['id']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['admin']) && isset($_POST['id']) && isset($_POST['username']) && isset($_POST['password'])  && isset($_POST['email'])  && isset($_POST['admin']) ){
         $id = htmlspecialchars($_POST['id']);
@@ -24,8 +22,6 @@ if(isset($_POST)){
 
         $rq->execute();
          
-    
-        
         header('Location: users.php');
    
     }

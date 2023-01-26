@@ -17,7 +17,6 @@
     body{
         margin:0;
         width:100%;
-        padding: 1em;
     }
     .categories{
         display:none;
@@ -78,9 +77,7 @@
 
     /*large screen*/
 @media only screen and (min-width: 786px) {
-    body{
-        padding: 2em;
-    }
+
     header{
         height: 10em;
     }
@@ -306,8 +303,8 @@
 
         .product {
             padding: 2em;  
-            width: 25em;
-            height: 35em;
+            width: 20em;
+            height: 20em;
         }
         .product img{
             height:20em;
@@ -460,7 +457,7 @@
    footer{ 
     width:100%;
     display:flex;
-    margin:2em 0;
+    margin: 2em 0;
    }
    #pages{
         display:flex;
@@ -508,3 +505,19 @@
         #results {
             margin: 3%;
         }
+    
+    .pagination {
+        margin-top: 4em;
+    }
+    .refs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        grid-auto-rows: minmax(2em, 1em);
+        padding: 0 2em;
+    }
+    td{
+        vertical-align: middle;
+        align-items: center;
+        align-content: center;
+    }
