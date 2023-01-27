@@ -2,10 +2,33 @@
 include_once("./includes/header.php");
 include_once("./includes/my_connection.php");
 
-$req = $connect->prepare("SELECT * FROM products;");
-$req->setFetchMode(PDO::FETCH_ASSOC);
-$req->execute();
-$result = $req->fetchAll(PDO::FETCH_ASSOC);
+$page = $_GET['page'];
+// defines on which page is the website
+if (isset($_GET['page']) && !empty($_GET['page'])) {
+    $currentPage = (int) strip_tags($_GET['page']);
+} else {
+    $currentPage = 1;
+}
+
+$sql = "SELECT COUNT(*) AS 'nbr_art' FROM products;";
+
+$query = $connect->prepare($sql);
+$query->execute();
+$res = $query->fetch();
+$nbr_art = (int)$res['nbr_art'];
+$parPage = 10;
+$pages = ceil($nbr_art / $parPage);
+
+$premier = ($currentPage-1) * $parPage;
+
+$sql = 'SELECT * FROM products ORDER BY name ASC LIMIT :premier, :parpage';
+$qry = $connect->prepare($sql);
+$qry->bindValue(':premier', $premier, PDO::PARAM_INT);
+$qry->bindValue(':parpage', $parPage, PDO::PARAM_INT);
+$qry->execute();
+$articles = $qry->fetchAll();
+
+$afficher = "oui";
 
 
 if (isset($_GET['filtre'])) {
@@ -15,42 +38,42 @@ if (isset($_GET['filtre'])) {
 
     if (empty($price)) {
         if (!empty($category) or !empty($color)) {
-            $req = $connect->prepare("SELECT * FROM products WHERE description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+            $req = $connect->prepare("SELECT * FROM products WHERE description LIKE '%$color%' AND category_name LIKE '%$category%' OR parent_category_name LIKE '%$category%';");
             $req->setFetchMode(PDO::FETCH_ASSOC);
             $req->execute();
             $result = $req->fetchAll();
-   
+            $afficher = "oui";
         }
     } else if ($price == "250") {
-        $req = $connect->prepare("SELECT * FROM products WHERE price < 250 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+        $req = $connect->prepare("SELECT * FROM products WHERE price < 250 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%';");
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $req->execute();
         $result = $req->fetchAll();
-
+        $afficher = "oui";
     } else if ($price == "500") {
-        $req = $connect->prepare("SELECT * FROM products WHERE price < 500 AND price > 250 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+        $req = $connect->prepare("SELECT * FROM products WHERE price < 500 AND price > 250 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%';");
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $req->execute();
         $result = $req->fetchAll();
-
+        $afficher = "oui";
     } else if ($price == "1000") {
-        $req = $connect->prepare("SELECT * FROM products WHERE price < 1000 AND price > 500 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+        $req = $connect->prepare("SELECT * FROM products WHERE price < 1000 AND price > 500 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%';");
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $req->execute();
         $result = $req->fetchAll();
-
+        $afficher = "oui";
     } else if ($price == "2000") {
-        $req = $connect->prepare("SELECT * FROM products WHERE price < 2000 AND price > 1000 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+        $req = $connect->prepare("SELECT * FROM products WHERE price < 2000 AND price > 1000 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%';");
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $req->execute();
         $result = $req->fetchAll();
-
+        $afficher = "oui";
     } else if ($price == "2001") {
-        $req = $connect->prepare("SELECT * FROM products WHERE price > 2000 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%'");
+        $req = $connect->prepare("SELECT * FROM products WHERE price > 2000 AND description LIKE '%$color%' AND parent_category_name LIKE '%$category%' OR category_name LIKE '%$category%';");
         $req->setFetchMode(PDO::FETCH_ASSOC);
         $req->execute();
         $result = $req->fetchAll();
-
+        $afficher = "oui";
     }
 }
 
@@ -82,31 +105,31 @@ if (isset($_GET['filtre'])) {
                 <label for="filter_collection">Color</label>
                 <select name="color" class="form-select" aria-label="Default select example">
                     <option value=""></option>
-                    <option value="white">white</option>
-                    <option value="black">black</option>
-                    <option value="brown">brown</option>
+                    <option value="white" <?php if($color== 'white') echo "selected='selected'"; ?>> white</option>
+                    <option value="black" <?php if($color== 'black') echo "selected='selected'"; ?>>black</option>
+                    <option value="brown" <?php if($color== 'brown') echo "selected='selected'"; ?>>brown</option>
                 </select>
             </div>
             <div>
                 <label for="filter_collection">Category</label>
                 <select name="category" class="form-select" aria-label="Default select example">
                     <option value=""></option>
-                    <option value="chairs">chairs</option>
-                    <option value="sofas">sofas</option>
-                    <option value="bed">beds</option>
-                    <option value="tables">tables</option>
-                    <option value="tor">storage</option>
+                    <option value="chairs" <?php if($category== 'chairs') echo "selected='selected'"; ?>>chairs</option>
+                    <option value="sofas" <?php if($category== 'sofas') echo "selected='selected'"; ?>>sofas</option>
+                    <option value="beds" <?php if($category== 'beds') echo "selected='selected'"; ?>>beds</option>
+                    <option value="tables" <?php if($category== 'tables') echo "selected='selected'"; ?>>tables</option>
+                    <option value="storage" <?php if($category== 'storage') echo "selected='selected'"; ?>>storage</option>
                 </select>
             </div>
             <div>
                 <label for="filter_collection">Price</label>
                 <select name="price" class="form-select" aria-label="Default select example">
                     <option value=""></option>
-                    <option value="250">&dollar;0 - &dollar;250</option>
-                    <option value="500">&dollar;250 - &dollar;500</option>
-                    <option value="1000">&dollar;500 - &dollar;1000</option>
-                    <option value="2000">&dollar;1000 - &dollar;2000</option>
-                    <option value="2001">&dollar;2000 +</option>
+                    <option value="250" <?php if($price== '250') echo "selected='selected'"; ?>>&dollar;0 - &dollar;250</option>
+                    <option value="500" <?php if($price== '500') echo "selected='selected'"; ?>>&dollar;250 - &dollar;500</option>
+                    <option value="1000" <?php if($price== '1000') echo "selected='selected'"; ?>>&dollar;500 - &dollar;1000</option>
+                    <option value="2000" <?php if($price== '2000') echo "selected='selected'"; ?>>&dollar;1000 - &dollar;2000</option>
+                    <option value="2001" <?php if($price== '2001') echo "selected='selected'"; ?>>&dollar;2000 +</option>
                 </select>
             </div>
             <button type="valid" name="filtre">Valider</button>
@@ -115,33 +138,8 @@ if (isset($_GET['filtre'])) {
     <div class="gallerie">
 
         <?php
-        $page = $_GET['page'];
-        // defines on which page is the website
-        if (isset($_GET['page']) && !empty($_GET['page'])) {
-            $currentPage = (int) strip_tags($_GET['page']);
-        } else {
-            $currentPage = 1;
-        }
 
-        $sql = "SELECT COUNT(*) AS 'nbr_art' FROM products;";
-
-        $query = $connect->prepare($sql);
-        $query->execute();
-        $res = $query->fetch();
-        $nbr_art = (int)$res['nbr_art'];
-        $parPage = 10;
-        $pages = ceil($nbr_art / $parPage);
-
-        $premier = ($currentPage-1) * $parPage;
-
-        $sql = 'SELECT * FROM products ORDER BY name ASC LIMIT :premier, :parpage';
-        $qry = $connect->prepare($sql);
-        $qry->bindValue(':premier', $premier, PDO::PARAM_INT);
-        $qry->bindValue(':parpage', $parPage, PDO::PARAM_INT);
-        $qry->execute();
-        $articles = $qry->fetchAll();
-
-       // if ($afficher=="oui") {  
+        if ($afficher=="oui") {  
         //for ($i = 0; $i < $parPage; $i++) 
         foreach($articles as $article)
         {
@@ -169,7 +167,7 @@ if (isset($_GET['filtre'])) {
             </table>
 
         <?php   }
-      //  } 
+        } 
         ?>
     </div>
 

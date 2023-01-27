@@ -1,17 +1,24 @@
 <?php 
 session_start();
 include_once('../includes/my_connection.php');
+echo $id;
 
-if(isset($_POST)){
-    if(!empty($_POST['id']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['email']) && !empty($_POST['admin']) && isset($_POST['id']) && isset($_POST['username']) && isset($_POST['password'])  && isset($_POST['email'])  && isset($_POST['admin']) ){
-        $id = htmlspecialchars($_POST['id']);
-        $password = htmlspecialchars($_POST['password']);
+
+if (isset($_POST)) {
+
+    if (
+        !empty($_POST['id']) && !empty($_POST['username']) && !empty($_POST['password'])
+        && !empty($_POST['email']) && !empty($_POST['admin']) && isset($_POST['id'])
+        && isset($_POST['username']) && isset($_POST['password'])  && isset($_POST['email'])  && isset($_POST['admin'])
+    ) {
+        $id = htmlspecialchars($_GET['id']);
+        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
         $email = htmlspecialchars($_POST['email']);
         $admin = htmlspecialchars($_POST['admin']);
         $username = htmlspecialchars($_POST['username']);
 
-        $sql = "UPDATE users SET username=:username, password=:password, email=:email, admin=:admin WHERE id=:id";
-
+        $sql = "UPDATE users SET username= :username, password= :password, email= :email, admin= :admin WHERE id= :id";
+      
         $rq = $connect->prepare($sql);
 
         $rq->bindValue(':username', $username, PDO::PARAM_STR);
@@ -19,11 +26,42 @@ if(isset($_POST)){
         $rq->bindValue(':email', $email, PDO::PARAM_STR);
         $rq->bindValue(':admin', $admin, PDO::PARAM_INT);
         $rq->bindValue(':id', $id, PDO::PARAM_INT);
+  /*
+    if( !empty($_POST['username']) && isset($_POST['username']) ){
+        $sql = "UPDATE users SET username=':username' WHERE id=':id';";
+        $rq=$connect->prepare($sql);
+        $rq->bindValue(':username', $username, PDO::PARAM_STR);
+        
+    }
+    
+    if (!empty($_POST['email'])  && isset($_POST['email'])) {
+        $sql = "UPDATE users SET email=':email' WHERE id=':id';";
+        $rq=$connect->prepare($sql);
+        $rq->bindValue(':email', $email, PDO::PARAM_STR);
 
-        $rq->execute();
-         
-        header('Location: users.php');
-   
+    }
+    if (!empty($_POST['password']) && isset($_POST['password']) ) {
+        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+        $sql = "UPDATE users SET password=':password' WHERE id=':id';";
+        $rq->bindValue(':password', $password, PDO::PARAM_STR);
+    }
+    
+    if( !empty($_POST['admin']) && isset($_POST['admin'])){
+        $sql = "UPDATE users SET admin='$admin' WHERE id=':id'";
+        $rq = $connect->prepare($sql);
+        $rq->bindValue(':admin', $admin, PDO::PARAM_INT);
+    }
+    
+    $rq->execute(array($id, $username, $email, $password, $admin));*/
+     
+        $req->execute();
+        $resultat = $req->fetchAll();
+        if ($resultat == true) {
+            echo "succes!";
+            header('Location: users.php');
+        } else {
+            echo "error";
+        }
     }
 }
 
@@ -36,7 +74,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
     $result = $rq->fetch();
 }
 
-require_once("close.php");
+//require_once("close.php");
 ?>
 
 <!DOCTYPE html>
@@ -64,27 +102,27 @@ require_once("close.php");
                
     <h2 class="text-center">Update a user</h2>
 
-    <form method="post">
+    <form method="post" action="">
 
     <div class="form-group">
         
             <label for="id">Id</label>
-            <input type="number" name="id" id="id" class="form-control" value="<?= $result['id'] ?>">
+            <input type="number" name="id" id="id" class="form-control" value="<?= $result['id'] ?>" <?php echo (!empty($id))? 'is_invalid': ''; ?>>
         </div> 
         <div class="form-group">
         
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" value="<?= $result['username'] ?>">
+            <input type="text" name="username" id="username" class="form-control" value="<?= $result['username']?> <?php if(isset($username)) echo $username?>">
         </div> 
         <div class="form-group">
         
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" value="<?= $result['password'] ?>" required>
+            <input type="password" name="password" id="password" class="form-control" value="<?= $result['password'] ?>" <?php if(isset($password)) echo $password ?> required>
         </div> 
 
         <div class="form-group">
             <label for="email">Email</label> 
-            <input type="email" name="email" id="email" class="form-control" value="<?= $result['email'] ?>" required>
+            <input type="email" name="email" id="email" class="form-control" value="<?= $result['email'] ?>" <?php if(isset($email))  echo $email ?> required>
             </div>
         <div class="form-group">
             <label for="admin">Admin status</label>    
@@ -95,12 +133,7 @@ require_once("close.php");
         </div>
         
             <input type="hidden" name="id" value="<?= $result['id'] ?>">
-            <button class="btn btn-primary">Save</button>
-
-          
-        
-           
-
+            <button class="btn btn-primary" type="submit" name="submit">Save</button>
     </form>
 </div>
 </section>

@@ -79,6 +79,10 @@ a.btn{
     max-width: 100%;
     
 }
+.table td img{
+    max-width: 6em;
+    max-height: 6em;
+}
 /*read product*/
 
 img.img-fluid{

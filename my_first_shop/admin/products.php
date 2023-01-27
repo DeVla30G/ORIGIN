@@ -63,6 +63,7 @@ require_once('close.php');
                     <td><?= $product['name'] ?></td>
                     <td><?= $product['category_name'] ?></td>
                     <td><?= $product['price'] ?>$</td>
+                    <td><img class="product" src="<?= $product["photo"]; ?>" alt="<?= $product['parent_category_name']; ?>" /></td>
                     
                     <td><a  href="read_product.php?id=<?= $product['id'] ?>" class="btn btn-primary">See</a> <a href="edit_product.php?id=<?= $product['id'] ?>" class="btn btn-success">Edit</a> <a href="delete_product.php?id=<?= $product['id'] ?>" class="btn btn-danger">Delete</a></td>
                 </tr>
