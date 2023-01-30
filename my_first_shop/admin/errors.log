@@ -127,3 +127,9 @@ Stack trace:
 [26-Jan-2023 21:02:35 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
 [27-Jan-2023 11:03:14 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
 [27-Jan-2023 11:27:35 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:11:29 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:11:37 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:15:02 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:15:09 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:15:15 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4
+[30-Jan-2023 13:16:10 Europe/Berlin] PHP Warning:  Undefined variable $id in /home/vladi/ORIGIN/my_first_shop/admin/edit_user.php on line 4

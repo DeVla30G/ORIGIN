@@ -1,9 +1,7 @@
 <?php 
-
 session_start();
-include_once("logout_panel.php");
 include_once('../includes/my_connection.php');
-
+//include_once('./logout_panel.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

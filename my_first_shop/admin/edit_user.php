@@ -17,7 +17,7 @@ if (isset($_POST)) {
         $admin = htmlspecialchars($_POST['admin']);
         $username = htmlspecialchars($_POST['username']);
 
-        $sql = "UPDATE users SET username= :username, password= :password, email= :email, admin= :admin WHERE id= :id";
+        $sql = "UPDATE users SET username= '$username', password= '$password', email= '$email', admin= '$admin' WHERE id= :id";
       
         $rq = $connect->prepare($sql);
 

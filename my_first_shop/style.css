@@ -104,6 +104,7 @@
 
     .signin{
         width:50%;
+        margin: auto auto;
     }
     .signup_form{
         width:50%;
@@ -146,7 +147,7 @@
         }
 
         .logo {
-            width: 4em;
+            width: 8em;
             height: auto;
         }
 
@@ -292,13 +293,20 @@
      border-bottom: 0.1em solid lightgray;
      width: 95%;
  } 
+ .ad{
+    width:50%;
+    height:26em;
 
+    margin-right: 0em;
+
+}
         /*gallerie */
       .gallerie{
           display:flex;
           flex-direction: row;
           flex-wrap: wrap;
           justify-content: space-around;
+          margin-bottom: 2em;
       }
 
         .product {
@@ -341,6 +349,8 @@
                 width:100%;
                 display:flex;
                 flex-direction:row;
+                align-items: center;
+                justify-content: center;
             }
             .search_bar ul{
                 list-style-type: none;
